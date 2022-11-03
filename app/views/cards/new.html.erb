@@ -1,0 +1,13 @@
+<h1>質問カードの追加</h1>
+<%= form_with model: @card, url: { action: :create } do |f| %>
+  <%= f.hidden_field :resume_id, value: @resume.id %>
+  <div>質問内容</div>
+  <div><%= f.text_field :que %></div>
+  <div>回答</div>
+  <div><%= f.text_field :content %></div>
+  <div>質問タイプ</div>
+  <div><%= f.select 'que_type',selectQue(@que), include_blank: true %></div>
+  <div><%= f.submit %></div>
+<% end %>
+<%= link_to '質問内容の追加', new_que_path %>
+<%= link_to '戻る', corp_resume_cards_path %>

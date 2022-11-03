@@ -1,0 +1,6 @@
+<h1>質問内容の追加</h1>
+<%= form_with model: @que, url: { action: :create } do |f| %>
+  <div><%= f.text_field :title %></div>
+  <div><%= f.submit %></div>
+<% end %>
+<%= link_to '戻る', corps_path %>

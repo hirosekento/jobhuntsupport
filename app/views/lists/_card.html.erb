@@ -1,0 +1,21 @@
+    <div class = 'flexBox'>
+    <% cards.each do |card| %>
+    <div class="flexCard">
+      <div class="queItem">
+        <div>質問内容</div>
+        <div><%= card.que %></div>
+      </div>
+      <div class="ansItem">
+        <div>回答内容</div>
+        <div><%= card.content %></div>
+      </div>
+    </div>
+    <% end %>
+    <br>
+    </div>
+
+    <div class = "pageButton">
+      <button id="back">戻る</button>
+      <%=page.to_s+"/"+total.to_s %>
+      <button id="front">進む</button>
+    </div>

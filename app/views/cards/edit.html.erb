@@ -1,0 +1,9 @@
+<h1>Card編集</h1>
+<%= form_with model: @card, url: { action: :update } do |f| %>
+  <div><%= f.label :que %></div>
+  <div><%= f.text_field :que %></div>
+  <div><%= f.select 'resume_id',selectQue(@que), include_blank: true %></div>
+  <div><%= f.submit %></div>
+<% end %>
+<%= link_to '質問内容の追加', new_que_path %>
+<%= link_to '戻る', corps_path %>

@@ -1,0 +1,208 @@
+<script>
+// <%# import jquery from "jquery-rails" %>
+$(function(){
+  var page=1;
+  $(document).on('click', '#corp_id', function(){
+		var corp_id = $('#corp_id option:selected').val();
+		$.ajax({
+			type:'GET',
+			url:'/lists/list',
+      data: {  // 送信するデータをハッシュ形式で指定
+        corp_id: corp_id
+      },
+		}).done(function (data) {
+      // success
+      //取得jsonデータ
+      var data_stringify = JSON.stringify(data);
+      var data_json = JSON.parse(data_stringify);
+      $('#resume_id').html(data_json.html);
+      console.log(data_json);
+    }).fail(function (data) {
+      // error
+      console.log('error');
+    });
+	})
+
+  $("#que_button").on("click", function() {
+		$.ajax({
+			type:'GET',
+			url:'/lists/formque',
+      data:''
+		}).done(function (data) {
+      // success
+      //取得jsonデータ
+      var data_stringify = JSON.stringify(data);
+      var data_json = JSON.parse(data_stringify);
+      $('#form_type').html(data_json.html);
+      // console.log(data_json);
+      $("#corp_button").prop('disabled', false);
+      $("#que_button").prop('disabled', true);
+    }).fail(function (data) {
+      // error
+      console.log('error');
+    });
+  })
+  $("#corp_button").on("click", function() {
+    $.ajax({
+			type:'GET',
+			url:'/lists/formcorp',
+      data:''
+		}).done(function (data) {
+      // success
+      //取得jsonデータ
+      var data_stringify = JSON.stringify(data);
+      var data_json = JSON.parse(data_stringify);
+      $('#form_type').html(data_json.html);
+      $("#corp_button").prop('disabled', true);
+      $("#que_button").prop('disabled', false);
+    }).fail(function (data) {
+      // error
+      console.log('error');
+    });
+  })
+
+  $(document).on('change', '#resume_id', function(){
+		var resume_id = $('#resume_id option:selected').val();
+    page = 1;
+    resumecards(resume_id,page);
+	})
+
+  $(document).on('click', '#que_type', function(){
+		var que_id = $('#que_type option:selected').val();
+    page = 1;
+    quecards(que_id,page);
+	})
+
+  $(document).on('click', '#back', function(){
+    if(page<=1){
+      page=1;
+    }else{
+      page--;
+    }
+    if($('#resume_id option:selected').val()!=null){
+      var resume_id = $('#resume_id option:selected').val();
+      resumecards(resume_id,page);
+    }else if($('#que_type option:selected').val()!=null){
+      var que_id = $('option:selected').val();
+      quecards(que_id,page);
+    }
+	})
+  
+  $(document).on('click', '#front', function(){
+    page++;
+    if($('#resume_id option:selected').val()!=null){
+      var resume_id = $('#resume_id option:selected').val();
+      resumecards(resume_id,page);
+    }else if($('#que_type option:selected').val()!=null){
+      var que_id = $('#que_type option:selected').val();
+      quecards(que_id,page);
+    }
+	})
+
+  $(document).on('click', '#event', function(){
+		var corp_id = $(this).val();
+		$.ajax({
+			type:'GET',
+			url:'/lists/corpcards',
+      data: {  // 送信するデータをハッシュ形式で指定
+        corp_id: corp_id
+      },
+		}).done(function (data) {
+      // success
+      //取得jsonデータ
+      var data_stringify = JSON.stringify(data);
+      var data_json = JSON.parse(data_stringify);
+      $('.contents').html(data_json.html);
+    }).fail(function (data) {
+      // error
+      console.log('error');
+    });
+	})
+
+  function resumecards(resume_id,page){
+  $.ajax({
+			type:'GET',
+			url:'/lists/resumecards',
+      data: {  // 送信するデータをハッシュ形式で指定
+        resume_id: resume_id,
+        page: page
+      },
+		}).done(function (data) {
+      // success
+      //取得jsonデータ
+      var data_stringify = JSON.stringify(data);
+      var data_json = JSON.parse(data_stringify);
+      $('.contents').html(data_json.html);
+      // console.log(data_json);
+    }).fail(function (data) {
+      // error
+      console.log('error');
+    });
+  }
+
+  function quecards(que_id,page){
+    $.ajax({
+			type:'GET',
+			url:'/lists/quecards',
+      data: {  // 送信するデータをハッシュ形式で指定
+        que_id: que_id,
+        page: page
+      },
+		}).done(function (data) {
+      // success
+      //取得jsonデータ
+      var data_stringify = JSON.stringify(data);
+      var data_json = JSON.parse(data_stringify);
+      $('.contents').html(data_json.html);
+    }).fail(function (data) {
+      // error
+      console.log('error');
+    });
+  }
+});
+
+</script>
+
+<h1>ESカード一覧</h1>
+
+<button id="que_button" type="button">質問モード</button>
+<button id="corp_button" type="button" disabled>企業モード</button>
+<div class = "tab_menu">
+<div id = "form_type">
+<%= form_with url: "/lists", method: :get do |form| %>
+  <%= form.label :qery, "企業名:" %>
+  <%= form.select :corp_id,options_from_collection_for_select(@corps, "id", "name") , {id: 'corp_select'},include_blank: true%>
+  <%= form.select :resume_id,[["ESを選択してください。",1]], include_blank: true %>
+  <%= form.submit  "検索" %>
+<% end %>
+</div>
+</div>
+<div class ="contents">
+  <div class="flexBox">
+    <% @cards.each do |card| %>
+    <div class="flexCard">
+      <div class="queItem">
+        <div>質問内容</div>
+        <div><%= card.que %></div>
+      </div>
+      <div class="ansItem">
+        <div>回答内容</div>
+        <div><%= card.content %></div>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
+<%= link_to 'ESカード作成画面', corps_path %>
+
+<%= link_to '予定追加', new_event_path %>
+<%= month_calendar events: @events do |date, events| %>
+  <%= date.day %>
+
+  <% events.each do |event| %>
+    <div>
+      <button id="event" value=<%= event.corp_id %>><%= findCorp(event.corp_id) %></button> 
+      <div><%= event.title %></div>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,6 @@
+<%= form_with url: "/lists", method: :get do |form| %>
+  <%= form.label :qery, "企業名:" %>
+  <%= form.select 'corp_id',options_from_collection_for_select(@corps, "id", "name") , {id: 'corp_select'},include_blank: true%>
+  <%= form.select 'resume_id',[["ESを選択してください。",1]], include_blank: true %>
+  <%= form.submit  "検索" %>
+<% end %>

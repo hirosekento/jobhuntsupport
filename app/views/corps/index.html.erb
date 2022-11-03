@@ -1,0 +1,23 @@
+
+<h1>ES作成企業一覧</h1>
+<table>
+  <thead>
+    <tr>
+      <th>企業名</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @corps.each do |corp| %>
+      <tr>
+        <td><%= corp.name %></td>
+        <% corp.resume.each do |resume|%>
+            <td><%= link_to resume.title , corp_resume_cards_path(corp,resume) %></td>
+        <% end %>
+        <td><%= link_to 'ESを追加', new_corp_resume_path(corp) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to '企業追加', new_corp_path %>
+<%= link_to '質問内容の追加', new_que_path %>
+<%= link_to '閲覧画面に戻る', lists_path %>

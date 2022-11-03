@@ -1,0 +1,8 @@
+<h1>ESの追加</h1>
+<%= form_with model: @resume, url: { action: :create } do |f| %>
+  <%= f.hidden_field :corp_id, value: @corp.id %>
+  <div><%= f.label :title %></div>
+  <div><%= f.text_field :title %></div>
+  <div><%= f.submit %></div>
+<% end %>
+<%= link_to '戻る', corps_path %>

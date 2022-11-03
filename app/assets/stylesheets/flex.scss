@@ -1,0 +1,58 @@
+.flexBox{
+    flex: 100%;
+    color: #6a5acd;
+    display: flex;
+    text-align: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    // flex-direction: column;   
+}
+
+.flexCard{
+    flex-basis: 40%;
+    padding: 5%;
+}
+.queItem{
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background: #add8e6;
+}
+.ansItem{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    background: #ffa07a;
+}
+.tab_menu{
+    height: 50pt;
+    width: 500pt;
+    background: #d5ead8;
+}
+
+.pageButton{
+    flex: 100%;
+    text-align: center;
+}
+button#que_button{
+    border-color: #ffffff;
+    background-color: #ffffff;
+    // color: #1ebc36;
+}
+button#corp_button{
+    border-color: #ffffff;
+    background-color: #ffffff;
+    // color: #1ebc36;
+}
+button#que_button:disabled{
+    color: inherit;
+    background-color: #d5ead8;
+    opacity: 1;
+}
+button#corp_button:disabled{
+    color: inherit;
+    background-color: #d5ead8;
+    opacity: 1;
+}

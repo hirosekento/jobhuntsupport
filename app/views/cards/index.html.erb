@@ -1,0 +1,19 @@
+<h1>ES</h1>
+<table>
+  <thead>
+    <tr>
+      <th>質問カード一覧</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @resume.card.each do |card| %>
+      <tr>
+        <td><%= card.que %></td>
+        <td><%= card.content %></td>
+        <td><%= link_to '編集', edit_corp_resume_card_path(id: card.id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to '質問カードの追加', new_corp_resume_card_path %>
+<%= link_to 'ホームに戻る', corps_path %>
